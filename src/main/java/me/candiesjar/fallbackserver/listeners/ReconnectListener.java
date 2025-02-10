@@ -29,6 +29,7 @@ public class ReconnectListener {
             Player player = event.getPlayer();
             RegisteredServer kickedFrom = kickEvent.getServer();
             String kickedFromName = kickedFrom.getServerInfo().getName();
+            FallbackServerVelocity.getInstance().getLogger().info("Player {} was kicked from {}", player.getUsername(), kickedFromName);
 
             if (kickEvent.kickedDuringServerConnect()) {
                 return false;

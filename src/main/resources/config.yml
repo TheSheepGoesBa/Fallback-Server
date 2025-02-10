@@ -35,7 +35,7 @@ settings:
   # In seconds, will check your lobbies every X seconds, defined under here.
   # On first start / reboot, let the plugin settle down for X seconds (defined under here) before start using fallback.
   # Recommended to use 5 if your server is in beta or have not stable spigot instances.
-  ping_delay: 5
+  ping_delay: 3
 
   # In seconds, determines the timeout phase
   # during the ping check.
@@ -48,24 +48,12 @@ settings:
 
   # Add here your groups with their servers and lobbies.
   fallback:
-    bedwars:
-      servers:
-        - bwgame1
-        - bwgame2
-        - bwgame3
-      lobbies:
-        - bwlobby1
-        - bwlobby2
-        - bwlobby3
-      mode: FALLBACK
     survival:
       servers:
-        - survival
+        - beeboxmc
       lobbies:
-        - lobby1
-        - lobby2
-        - lobby3
-      mode: FALLBACK
+        - beeboxmc
+      mode: RECONNECT
     default: # DON'T delete this default group.
       servers:
         - lobby1
@@ -89,10 +77,10 @@ settings:
   # Those values will clear the chat on reconnect (after success) or when players
   # get fallback-ed to another server.
   clear_chat:
-    fallback: true
+    fallback: false
     server_switch: false
     reconnect: false
-    reconnect_join: true
+    reconnect_join: false
 
   # Default is on false to prevent any issues with the first join.
   # True: the plugin will automatically choose best lobby when connecting and balance all players.
@@ -109,12 +97,12 @@ settings:
   # Remember that your group has to be set on RECONNECT mode.
   auto_reconnect:
     # Tries before disconnecting or moving player to lobbies.
-    max_tries: 5
+    max_tries: 100
 
     # Time before pinging the server during reconnect phase.
     # Don't put values under 1, they will NOT work.
     # Recommended value is around 10 seconds.
-    ping_delay: 10
+    ping_delay: 2
 
     # This option is used by the addon ping system
     # for checking if the spigot instance is fully started up.
@@ -160,12 +148,12 @@ settings:
 
     # This option will trigger normal FallbackServer kicking procedure.
     # Sorting players in various lobbies.
-    player_sort: true
+    player_sort: false
 
     # Time before starting the server pinging on reconnect.
     # Don't put values under 1, they will NOT work.
     # In seconds.
-    first_delay: 3
+    first_delay: 2
 
     # Choose if you want to clear the tab-list when
     # a player enters the "limbo" while reconnecting.
@@ -216,14 +204,14 @@ settings:
   # Checks if stats should be enabled -> https://bstats.org/plugin/bungeecord/FallbackServer/11817
   # By default this setting is set on "true" to help me improve the plugin.
   # Obviously you can disable it if you want, feel free to do so.
-  telemetry: true
+  telemetry: false
 
   # Administrator will be notified which server goes down and the complete reason of shutdown.
   # DISABLED.
-  admin_notification: true
+  admin_notification: false
 
   # Choose if you want to use fallbackserver's built-in command blocker.
-  command_blocker: true
+  command_blocker: false
 
   # WARNING: will only work if "use_command_blocker" is set on true.
   # Add here the servers with the command(s) you want to block.
@@ -240,7 +228,7 @@ settings:
       - hub
 
   # If you want to use the /lobby command.
-  lobby_command: true
+  lobby_command: false
 
   # WARNING: works only if "lobby_command" is set on true.
   # Aliases for /lobby command, it's possible to remove the base /hub command too.

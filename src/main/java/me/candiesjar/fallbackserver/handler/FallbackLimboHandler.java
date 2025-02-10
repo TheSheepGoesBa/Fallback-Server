@@ -93,6 +93,7 @@ public class FallbackLimboHandler implements LimboSessionHandler {
 
     private void startReconnect(LimboPlayer limboPlayer) {
         boolean maxTries = tries.getAndIncrement() == this.maxTries;
+        FallbackServerVelocity.getInstance().getLogger().info("Tries: {}", tries.get());
 
         if (maxTries) {
             boolean fallback = VelocityConfig.RECONNECT_USE_FALLBACK.get(Boolean.class);
@@ -118,17 +119,20 @@ public class FallbackLimboHandler implements LimboSessionHandler {
             if (throwable != null || ping == null) {
                 return;
             }
+            FallbackServerVelocity.getInstance().getLogger().info("Pinged server: {}", target.getServerInfo().getName());
 
             int connectedPlayers = ping.asBuilder().getOnlinePlayers();
             int maxPlayers = ping.asBuilder().getMaximumPlayers();
             int check = VelocityConfig.RECONNECT_PLAYER_COUNT_CHECK.get(Integer.class);
 
             if (connectedPlayers == maxPlayers) {
+                FallbackServerVelocity.getInstance().getLogger().info("Server is full");
                 tries.set(this.maxTries);
                 return;
             }
 
             if (maxPlayers != check) {
+                FallbackServerVelocity.getInstance().getLogger().info("Server is not ready");
                 return;
             }
 
@@ -139,9 +143,11 @@ public class FallbackLimboHandler implements LimboSessionHandler {
             connectTask = scheduleTask(() -> {
                 target.ping().whenComplete((ping1, throwable1) -> {
                     if (throwable1 != null || ping1 == null) {
+                        FallbackServerVelocity.getInstance().getLogger().info("Failed to ping server: {}", target.getServerInfo().getName());
                         handleFallback(limboPlayer);
                     }
                 });
+                FallbackServerVelocity.getInstance().getLogger().info("Connecting to server: {}", target.getServerInfo().getName());
                 handleConnection(limboPlayer);
             }, VelocityConfig.RECONNECT_TASK_DELAY.get(Integer.class) + 2, 0);
         });
